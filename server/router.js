@@ -16,6 +16,7 @@ const router = (app) => {
   app.get('/page1', controllers.page1);
   app.get('/page2', controllers.page2);
   app.get('/page3', controllers.page3);
+  app.get('/page4', controllers.page4);
   app.get('/getName', controllers.getName);
   app.get('/findByName', controllers.searchName);
 
@@ -30,8 +31,12 @@ const router = (app) => {
   // For example, a form submission to www.webpage.com/setName
   app.post('/setName', controllers.setName);
 
+  app.post('/setDogName', controllers.setDogName);
+
   // When someone POSTS to /updateLast, call controllers.updateLast
   app.post('/updateLast', controllers.updateLast);
+
+  app.post('/updateSearchedDog', controllers.updateSearchedDog);
 };
 
 // export the router function
