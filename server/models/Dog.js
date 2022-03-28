@@ -2,35 +2,36 @@ const mongoose = require('mongoose');
 
 let DogModel = {};
 
-//Name, # of beds, createdDate
+// Name, # of beds, createdDate
 const DogSchema = new mongoose.Schema(
-{
-    name: 
+  {
+    name:
     {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
     },
     breed:
     {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     age:
     {
-        type: Number,
-        min: 0,
-        required: true,
+      type: Number,
+      min: 0,
+      required: true,
 
     },
     createdDate:
     {
-        type: Date,
-        default: Date.now,
+      type: Date,
+      default: Date.now,
 
     },
-});
+  },
+);
 
 DogModel = mongoose.model('Dog', DogSchema);
 

@@ -16,7 +16,6 @@ let lastAdded = new Cat(defaultData);
 
 // Function to handle rendering the index page.
 const hostIndex = (req, res) => {
-
   res.render('index', {
     currentName: lastAdded.name,
     title: 'Home',
@@ -27,7 +26,6 @@ const hostIndex = (req, res) => {
 // Function for rendering the page1 template
 // Page1 has a loop that iterates over an array of cats
 const hostPage1 = async (req, res) => {
-
   try {
     const docs = await Cat.find({}).lean().exec();
 
@@ -50,7 +48,6 @@ const hostPage3 = (req, res) => {
 };
 
 const hostPage4 = async (req, res) => {
-
   try {
     const docs = await Dog.find({}).lean().exec();
 
@@ -95,7 +92,7 @@ const setName = async (req, res) => {
   }
 };
 
-//Create dog
+// Create dog
 const setDogName = async (req, res) => {
   if (!req.body.name || !req.body.breed || !req.body.age) {
     // If they are missing data, send back an error.
@@ -170,13 +167,12 @@ const updateLast = (req, res) => {
 };
 
 const updateSearchedDog = async (req, res) => {
-
   if (!req.body.name) {
-    return res.status(400).json({ error: "Enter a name" });
+    return res.status(400).json({ error: 'Enter a name' });
   }
 
   try {
-    const doc = await Dog.findOneAndUpdate({name: req.body.name}, {age: req.body.age});
+    const doc = await Dog.findOneAndUpdate({ name: req.body.name }, { age: req.body.age });
     doc.age++;
     doc.save();
     // If we do not find something that matches our search, doc will be empty.
@@ -185,7 +181,7 @@ const updateSearchedDog = async (req, res) => {
     }
 
     // Otherwise, we got a result and will send it back to the user.
-    return res.json({ name: doc.name, breed: doc.breed, age: doc.age});
+    return res.json({ name: doc.name, breed: doc.breed, age: doc.age });
   } catch (err) {
     // If there is an error, log it and send the user an error message.
     console.log(err);
