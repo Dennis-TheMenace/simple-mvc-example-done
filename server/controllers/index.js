@@ -169,51 +169,28 @@ const updateLast = (req, res) => {
   });
 };
 
-let searchedDog = new Dog({name: "", breed: "", age: 0});
+const updateSearchedDog = async (req, res) => {
 
-const searchDog = async (req, res) => {
-  if (!req.query.name) {
-    return res.status(400).json({ error: "Enter valid name" });
+  if (!req.body.name) {
+    return res.status(400).json({ error: "Enter a name" });
   }
 
   try {
-    const doc = await Dog.findOne({ name: req.query.name }).exec();
-
+    const doc = await Dog.findOneAndUpdate({name: req.body.name}, {age: req.body.age});
+    doc.age++;
+    doc.save();
     // If we do not find something that matches our search, doc will be empty.
     if (!doc) {
       return res.json({ error: 'No dogs found' });
     }
 
     // Otherwise, we got a result and will send it back to the user.
-    searchedDog = {name: doc.name, breed: doc.breed, age: doc.age};
-    //return res.json({ name: doc.name, breed: doc.breed, age: doc.age});
+    return res.json({ name: doc.name, breed: doc.breed, age: doc.age});
   } catch (err) {
     // If there is an error, log it and send the user an error message.
     console.log(err);
     return res.status(500).json({ error: 'Something went wrong' });
   }
-};
-
-const updateSearchedDog = async (req, res) => {
-  await searchDog();
-
-  // First we will update the number of bedsOwned.
-  searchedDog.age++;
-
-  const savePromise = searchedDog.save();
-
-  // If we successfully save/update them in the database, send back the cat's info.
-  savePromise.then(() => res.json({
-    name: searchedDog.name,
-    breed: searchedDog.breed,
-    age: searchedDog.age,
-  }));
-
-  // If something goes wrong saving to the database, log the error and send a message to the client.
-  savePromise.catch((err) => {
-    console.log(err);
-    return res.status(500).json({ error: 'Something went wrong' });
-  });
 };
 
 // A function to send back the 404 page.
@@ -235,7 +212,6 @@ module.exports = {
   updateLast,
   searchName,
   notFound,
-  searchDog,
   updateSearchedDog,
   setDogName,
 };
